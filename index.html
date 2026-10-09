@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>little secret ♡</title>
+<style>
+body {
+  margin: 0;
+  padding: 30px 20px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  color: #755b60;
+  background: linear-gradient(#fff7f3, #f3dfe2);
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+.card {
+  max-width: 420px;
+  margin: 25px auto;
+  padding: 28px 20px;
+  border-radius: 25px;
+  background: #ffffffc9;
+  box-shadow: 0 5px 25px #b88c9020;
+}
+h1 {
+  font-family: Georgia, serif;
+  font-weight: normal;
+  font-size: 36px;
+}
+h2 { font-weight: normal; }
+p { line-height: 2; }
+input {
+  padding: 12px;
+  border: 1px solid #e5c6ca;
+  border-radius: 20px;
+  text-align: center;
+  max-width: 80%;
+}
+button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 25px;
+  background: #c58f99;
+  color: white;
+  margin: 10px 5px;
+  cursor: pointer;
+}
+#loveMessage {
+  line-height: 2;
+  min-height: 55px;
+}
+.heart {
+  position: fixed;
+  bottom: -30px;
+  color: #d89ca8;
+  animation: float 6s linear forwards;
+  pointer-events: none;
+}
+@keyframes float {
+  to {
+    transform: translateY(-110vh) rotate(30deg);
+    opacity: 0;
+  }
+}
+#website { display: none; }
+</style>
+</head>
+<body>
+
+<div class="card" id="lock">
+  <p>♡ A LITTLE SECRET ♡</p>
+  <h1>just for you</h1>
+  <p>這裡藏著一個小秘密。<br>你願意進來看看嗎？</p>
+  <input id="password" type="password" placeholder="輸入密碼">
+  <br>
+  <button onclick="unlock()">打開我的小秘密 ♡</button>
+  <p id="error"></p>
+</div>
+
+<div id="website">
+  <header>
+    <p>♡ A LITTLE WEBSITE FOR YOU ♡</p>
+    <h1>dear, you.</h1>
+    <p>有些心意，想偷偷收藏起來。</p>
+  </header>
+
+  <div class="card">
+    <h2>♡ a little note</h2>
+    <p>「你可能不知道，<br>你的出現讓一些普通的日子，<br>變得有一點不一樣。」</p>
+  </div>
+
+  <div class="card">
+    <h2>💌 給你的一句話</h2>
+    <p id="loveMessage">按下按鈕，看看藏起來的心意。</p>
+    <button onclick="showLove()">點我看看 ♡</button>
+  </div>
+
+  <div class="card">
+    <h2>📖 our little story</h2>
+    <p>
+      從認識你的那一天開始，<br>
+      有些小事好像就變得不太一樣。<br><br>
+      期待你的訊息，記得你說過的話，<br>
+      還有那些不小心因為你而開心的瞬間。<br><br>
+      這個故事還沒有結局，<br>
+      所以我想慢慢把它寫下去。♡
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>🎵 our song</h2>
+    <p>選一首喜歡的歌，當作這裡的背景音樂。</p>
+    <input type="file" id="music" accept="audio/*">
+    <br>
+    <button onclick="playMusic()">播放／暫停 ♫</button>
+    <audio id="audio" loop></audio>
+  </div>
+
+  <p style="padding:20px">made with a little love ♡</p>
+</div>
+
+<script>
+const SECRET = "1105";
+
+function unlock() {
+  if (document.getElementById("password").value === SECRET) {
+    document.getElementById("lock").style.display = "none";
+    document.getElementById("website").style.display = "block";
+    setInterval(makeHeart, 900);
+  } else {
+    document.getElementById("error").textContent = "密碼不對，再試一次 ♡";
+  }
+}
+
+const messages = [
+  "今天也要好好照顧自己喔。♡",
+  "希望你每天都有值得開心的小事。",
+  "如果你知道有人很期待你的訊息呢？",
+  "謝謝你，讓平凡的日子多了一點期待。",
+  "有些話還沒說出口，但都是真心的。",
+  "希望你每次笑，都是真的很開心。♡"
+];
+
+function showLove() {
+  const i = Math.floor(Math.random() * messages.length);
+  document.getElementById("loveMessage").textContent = messages[i];
+  makeHeart();
+}
+
+function makeHeart() {
+  const h = document.createElement("div");
+  h.className = "heart";
+  h.textContent = Math.random() > 0.5 ? "♡" : "♥";
+  h.style.left = Math.random() * 95 + "vw";
+  h.style.fontSize = (18 + Math.random() * 18) + "px";
+  document.body.appendChild(h);
+  setTimeout(() => h.remove(), 6000);
+}
+
+const music = document.getElementById("music");
+const audio = document.getElementById("audio");
+
+music.addEventListener("change", function() {
+  if (this.files[0]) {
+    audio.src = URL.createObjectURL(this.files[0]);
+    audio.play().catch(() => {});
+  }
+});
+
+function playMusic() {
+  if (!audio.src) {
+    alert("請先選擇一首音樂 ♡");
+    music.click();
+  } else if (audio.paused) {
+    audio.play();
+  } else {
+    audio.pause();
+  }
+}
+</script>
+
+</body>
+</html>
